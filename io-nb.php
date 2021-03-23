@@ -2,7 +2,8 @@
 
 //Lista de Mensagens
 $streamList = [
-    stream_socket_client('tcp://localhost:8080'), //retorna um stream
+    stream_socket_client('tcp://localhost:8001'),
+    stream_socket_client('tcp://localhost:8081'), //retorna um stream
     fopen('arquivo1.txt','r'),
     fopen('arquivo2.txt','r')
 ];  
