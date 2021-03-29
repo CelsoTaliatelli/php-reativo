@@ -13,7 +13,6 @@ $file = fopen('arquivo1.txt','r');
 //$stream = new ReadableResourceStream($file,$loop);
 
 $streamList = [
-    new DuplexResourceStream(stream_socket_client('tcp://localhost:8001'),$loop),
     new ReadableResourceStream(stream_socket_client('tcp://localhost:8081'),$loop), //retorna um stream
     New ReadableResourceStream(fopen('arquivo1.txt','r'),$loop),
     New ReadableResourceStream(fopen('arquivo2.txt','r'),$loop)
@@ -23,8 +22,12 @@ $streamList = [
     fn($stream) => new ReadableResourceStream($stream,$loop),
     $streamList
 );*/
-
-$streamList[0]->write('GET /http-server.php HTTP/1.1'."\r\n\r\n");
+$http = new DuplexResourceStream(stream_socket_client('tcp://localhost:8001'),$loop);
+$http->write('GET /http-server.php HTTP/1.1'."\r\n\r\n");
+$http->on('data',function($data){
+    $posicaoFimHttp = strpos($data,"\r\n\r\n");
+    echo substr($data,$posicaoFimHttp + 4).PHP_EOL;
+}); 
 
 foreach($streamList as $readableStream){
     $readableStream->on('data',function($data){
