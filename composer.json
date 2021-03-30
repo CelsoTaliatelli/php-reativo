@@ -1,6 +1,7 @@
 {
     "require": {
         "guzzlehttp/guzzle": "^7.2",
-        "cboden/ratchet": "^0.4.3"
+        "cboden/ratchet": "^0.4.3",
+        "react/http": "^1.2.0"
     }
 }

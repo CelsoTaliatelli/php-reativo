@@ -22,12 +22,20 @@ $streamList = [
     fn($stream) => new ReadableResourceStream($stream,$loop),
     $streamList
 );*/
-$http = new DuplexResourceStream(stream_socket_client('tcp://localhost:8001'),$loop);
+
+$browser = new React\Http\Browser($loop);
+
+$browser->get('http://localhost:8001/http-server.php')
+        ->then(function(\Psr\Http\Message\ResponseInterface $response){
+            var_dump((string)$response->getBody());
+        });
+
+/*$http = new DuplexResourceStream(stream_socket_client('tcp://localhost:8001'),$loop);
 $http->write('GET /http-server.php HTTP/1.1'."\r\n\r\n");
 $http->on('data',function($data){
     $posicaoFimHttp = strpos($data,"\r\n\r\n");
     echo substr($data,$posicaoFimHttp + 4).PHP_EOL;
-}); 
+});*/ 
 
 foreach($streamList as $readableStream){
     $readableStream->on('data',function($data){
